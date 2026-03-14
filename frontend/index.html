@@ -1,0 +1,2487 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neha’s Abacus & Vedic Maths Classes</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #ff6b35;
+        --primary-light: #ff9f70;
+        --secondary: #1b4fd8;
+        --accent: #ffd700;
+        --accent2: #00c896;
+        --accent3: #b14fff;
+        --bg: #fff9f5;
+        --bg2: #f0f4ff;
+        --dark: #1a1a2e;
+        --text: #2d2d3a;
+        --muted: #6b6b80;
+        --white: #ffffff;
+        --shadow: 0 8px 32px rgba(27, 79, 216, 0.1);
+        --r: 18px;
+        --fd: "Baloo 2", cursive;
+        --fb: "Nunito", sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--fb);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        line-height: 1.65;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      ul {
+        list-style: none;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        outline: none;
+        font-family: var(--fb);
+      }
+
+      /* FLOATING MATH BG */
+      .math-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .ms {
+        position: absolute;
+        font-family: var(--fd);
+        font-weight: 800;
+        opacity: 0.035;
+        color: var(--secondary);
+        animation: floatUp 20s linear infinite;
+        user-select: none;
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(110vh) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-20vh) rotate(360deg);
+        }
+      }
+      #confetti-canvas {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9999;
+        display: none;
+      }
+
+      /* HEADER */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        background: rgba(255, 249, 245, 0.96);
+        backdrop-filter: blur(14px);
+        border-bottom: 2px solid rgba(255, 107, 53, 0.13);
+        padding: 0 1rem;
+      }
+      .nav-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 66px;
+      }
+      .logo-wrap {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .logo-icon {
+        max-width: 60px;
+        border-radius: 13px;
+        box-shadow: 0 4px 14px rgba(255, 107, 53, 0.38);
+      }
+      .logo-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+      }
+      .lt1 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.12rem;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      nav {
+        display: none;
+        align-items: center;
+        gap: 4px;
+      }
+      nav a {
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--text);
+        padding: 7px 11px;
+        border-radius: 9px;
+        transition: all 0.2s;
+      }
+      nav a:hover {
+        color: var(--primary);
+        background: rgba(255, 107, 53, 0.08);
+      }
+      .nav-cta {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        color: var(--white) !important;
+        padding: 9px 20px !important;
+        border-radius: 50px;
+        font-weight: 800 !important;
+        box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s !important;
+      }
+      .nav-cta:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 7px 22px rgba(198, 94, 57, 0.632) !important;
+      }
+      @media (min-width: 768px) {
+        nav {
+          display: flex;
+        }
+      }
+      .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2.5px;
+        background: var(--text);
+        border-radius: 4px;
+        transition: all 0.3s;
+      }
+      @media (min-width: 768px) {
+        .hamburger {
+          display: none;
+        }
+      }
+      .mobile-nav {
+        display: none;
+        position: fixed;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border-bottom: 2px solid rgba(255, 107, 53, 0.13);
+        padding: 1rem;
+        z-index: 199;
+        flex-direction: column;
+        gap: 4px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 10px;
+        transition: all 0.2s;
+      }
+      .mobile-nav a:hover {
+        color: var(--primary);
+        background: rgba(255, 107, 53, 0.08);
+      }
+      .mobile-nav .nav-cta {
+        text-align: center;
+        margin-top: 8px;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        color: var(--white) !important;
+      }
+
+      /* PAGE INTRO */
+      .page-intro {
+        position: relative;
+        z-index: 1;
+        background: linear-gradient(
+          135deg,
+          #fff5ee 0%,
+          #eef3ff 60%,
+          #f5edff 100%
+        );
+        padding: 44px 1.25rem 48px;
+        text-align: center;
+        border-bottom: 2px solid rgba(255, 107, 53, 0.1);
+        overflow: hidden;
+      }
+      .page-intro::before {
+        content: "";
+        position: absolute;
+        top: -70px;
+        right: -70px;
+        width: 280px;
+        height: 280px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 107, 53, 0.11),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .page-intro::after {
+        content: "";
+        position: absolute;
+        bottom: -50px;
+        left: -50px;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(27, 79, 216, 0.09),
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .pi-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 215, 0, 0.18);
+        border: 2px solid rgba(255, 215, 0, 0.45);
+        padding: 4px 14px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.76rem;
+        color: #906f00;
+        margin-bottom: 14px;
+        letter-spacing: 0.03em;
+      }
+      .page-intro h1 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: clamp(1.7rem, 5vw, 2.9rem);
+        line-height: 1.18;
+        color: var(--dark);
+        margin-bottom: 10px;
+      }
+      .page-intro h1 span {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .page-intro p {
+        color: var(--muted);
+        font-size: 1rem;
+        font-weight: 600;
+        max-width: 580px;
+        margin: 0 auto 22px;
+      }
+      .pi-btns {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-light)
+        );
+        color: var(--white);
+        padding: 13px 26px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.97rem;
+        box-shadow: 0 5px 18px rgba(255, 107, 53, 0.38);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 9px 26px rgba(255, 107, 53, 0.48);
+      }
+      .btn-outline {
+        background: var(--white);
+        color: var(--secondary);
+        padding: 13px 26px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.97rem;
+        border: 2.5px solid var(--secondary);
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-outline:hover {
+        background: var(--secondary);
+        color: var(--white);
+      }
+      .course-pills {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 22px;
+      }
+      .cpill {
+        padding: 9px 20px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        border: 2px solid transparent;
+        transition: all 0.25s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .cpill-a {
+        background: rgba(255, 107, 53, 0.1);
+        color: #c44a00;
+        border-color: rgba(255, 107, 53, 0.3);
+      }
+      .cpill-a:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+      .cpill-v {
+        background: rgba(27, 79, 216, 0.1);
+        color: #0d35a0;
+        border-color: rgba(27, 79, 216, 0.3);
+        padding: 9px 29px;
+      }
+      .cpill-v:hover {
+        background: var(--secondary);
+        color: white;
+        border-color: var(--secondary);
+      }
+      .cpill-r {
+        background: rgba(177, 79, 255, 0.1);
+        color: #6a00c8;
+        border-color: rgba(177, 79, 255, 0.3);
+      }
+      .cpill-r:hover {
+        background: var(--accent3);
+        color: white;
+        border-color: var(--accent3);
+      }
+      .beads {
+        display: flex;
+        justify-content: center;
+        gap: 7px;
+        margin-top: 25px;
+      }
+      .bead {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        animation: bb 1.5s ease-in-out infinite;
+      }
+      .bead:nth-child(1) {
+        background: #ff6b35;
+        animation-delay: 0s;
+      }
+      .bead:nth-child(2) {
+        background: #ffd700;
+        animation-delay: 0.15s;
+      }
+      .bead:nth-child(3) {
+        background: #1b4fd8;
+        animation-delay: 0.3s;
+      }
+      .bead:nth-child(4) {
+        background: #00c896;
+        animation-delay: 0.45s;
+      }
+      .bead:nth-child(5) {
+        background: #b14fff;
+        animation-delay: 0.6s;
+      }
+      .bead:nth-child(6) {
+        background: #ff6b35;
+        animation-delay: 0.75s;
+      }
+      .bead:nth-child(7) {
+        background: #ffd700;
+        animation-delay: 0.9s;
+      }
+      @keyframes bb {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-9px);
+        }
+      }
+
+      /* SECTION COMMONS */
+      section {
+        position: relative;
+        z-index: 1;
+      }
+      .container {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+      .sec-hd {
+        text-align: center;
+        margin-bottom: 38px;
+      }
+      .sec-tag {
+        display: inline-block;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 107, 53, 0.11),
+          rgba(27, 79, 216, 0.11)
+        );
+        color: var(--primary);
+        font-weight: 800;
+        font-size: 0.73rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 13px;
+        border-radius: 50px;
+        margin-bottom: 9px;
+        border: 1.5px solid rgba(255, 107, 53, 0.2);
+      }
+      .sec-hd h2 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: clamp(1.5rem, 4vw, 2.3rem);
+        color: var(--dark);
+        margin-bottom: 8px;
+      }
+      .sec-hd p {
+        color: var(--muted);
+        font-size: 0.96rem;
+        font-weight: 600;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      .divider {
+        width: 56px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary), var(--secondary));
+        border-radius: 4px;
+        margin: 10px auto 0;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.6s ease,
+          transform 0.6s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* PROGRAMS */
+      .progs {
+        padding: 64px 0;
+        background: var(--white);
+      }
+      .prog-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      @media (min-width: 560px) {
+        .prog-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (min-width: 900px) {
+        .prog-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      .prog-card {
+        background: var(--bg);
+        border-radius: 20px;
+        padding: 24px 22px;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .prog-card::after {
+        content: attr(data-sym);
+        position: absolute;
+        bottom: -14px;
+        right: 8px;
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 4.5rem;
+        opacity: 0.055;
+        color: var(--dark);
+        line-height: 1;
+        pointer-events: none;
+      }
+      .prog-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+        border-color: rgba(255, 107, 53, 0.2);
+      }
+      .pi2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+      .prog-card h3 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--dark);
+        margin-bottom: 6px;
+      }
+      .prog-card p {
+        font-size: 0.84rem;
+        color: var(--muted);
+        font-weight: 500;
+        margin-bottom: 10px;
+      }
+      .pbadge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 50px;
+        letter-spacing: 0.02em;
+      }
+
+      /* COURSE CARDS */
+      .abacus-sec {
+        padding: 64px 0;
+        background: linear-gradient(160deg, #fff5ee 0%, #eef3ff 100%);
+      }
+      .vedic-sec {
+        padding: 64px 0;
+        background: var(--white);
+      }
+      .rba-sec {
+        padding: 64px 0;
+        background: linear-gradient(160deg, #f5edff 0%, #eef3ff 100%);
+      }
+      .rba-sec .cc {
+        border-color: rgba(177, 79, 255, 0.15);
+      }
+      .rba-sec .tlist li::before {
+        background: var(--accent3);
+      }
+      .rba-sec .fbox {
+        background: linear-gradient(135deg, var(--accent3), #7b2fff);
+      }
+      .cc {
+        background: var(--white);
+        border-radius: 26px;
+        padding: 30px 26px;
+        box-shadow: var(--shadow);
+        border: 2px solid rgba(255, 107, 53, 0.1);
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .vedic-sec .cc {
+        border-color: rgba(27, 79, 216, 0.12);
+      }
+      .ctop {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        margin-bottom: 26px;
+      }
+      @media (min-width: 680px) {
+        .ctop {
+          flex-direction: row;
+          align-items: flex-start;
+        }
+      }
+      .ctitle h3 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+        color: var(--dark);
+        margin-bottom: 6px;
+      }
+      .ctitle p {
+        font-size: 0.9rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .mstrip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .mchip {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--bg);
+        border-radius: 12px;
+        padding: 9px 14px;
+        border: 2px solid rgba(27, 79, 216, 0.1);
+        flex: 1;
+        min-width: 130px;
+      }
+      .mchip em {
+        font-size: 1.1rem;
+        font-style: normal;
+      }
+      .mchip div {
+        display: flex;
+        flex-direction: column;
+      }
+      .mchip strong {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: var(--dark);
+      }
+      .mchip small {
+        font-size: 0.7rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .cbody {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      @media (min-width: 680px) {
+        .cbody {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .tbox {
+        background: var(--bg);
+        border-radius: 16px;
+        padding: 20px;
+        border: 2px solid rgba(27, 79, 216, 0.07);
+      }
+      .tbox h4 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 0.97rem;
+        color: var(--dark);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tlist {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+      .tlist li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .tlist li::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--primary);
+        flex-shrink: 0;
+      }
+      .vedic-sec .tlist li::before {
+        background: var(--secondary);
+      }
+      .fbox {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 16px;
+        padding: 22px;
+        color: var(--white);
+      }
+      .vedic-sec .fbox {
+        background: linear-gradient(135deg, var(--secondary), var(--accent3));
+      }
+      .fbox h4 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 0.97rem;
+        margin-bottom: 14px;
+        opacity: 0.9;
+      }
+      .frow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .frow:last-child {
+        border-bottom: none;
+      }
+      .frow.total {
+        font-size: 1rem;
+        font-weight: 800;
+        padding-top: 11px;
+        margin-top: 4px;
+        border-top: 2px solid rgba(255, 255, 255, 0.38);
+        border-bottom: none;
+      }
+      .frow .amt {
+        font-family: var(--fd);
+        font-weight: 800;
+      }
+      .fnote {
+        margin-top: 12px;
+        padding: 11px 13px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+      .cchip {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255, 215, 0, 0.2);
+        border: 1.5px solid rgba(255, 215, 0, 0.45);
+        border-radius: 10px;
+        padding: 9px 12px;
+        font-size: 0.79rem;
+        font-weight: 700;
+      }
+      .ccta {
+        margin-top: 22px;
+        text-align: center;
+      }
+
+      /* SCHEDULE */
+      .sched-sec {
+        padding: 64px 0;
+        background: linear-gradient(
+          135deg,
+          var(--secondary) 0%,
+          var(--accent3) 100%
+        );
+        color: var(--white);
+        overflow: hidden;
+        position: relative;
+      }
+      .sched-sec::before {
+        content: "";
+        position: absolute;
+        top: -60px;
+        right: -60px;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.055);
+      }
+      .sched-sec .sec-tag {
+        background: rgba(255, 255, 255, 0.14);
+        color: var(--white);
+        border-color: rgba(255, 255, 255, 0.22);
+      }
+      .sched-sec .sec-hd h2 {
+        color: var(--white);
+      }
+      .sched-sec .sec-hd p {
+        color: rgba(255, 255, 255, 0.73);
+      }
+      .sched-sec .divider {
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+      }
+      .sgrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      @media (min-width: 560px) {
+        .sgrid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (min-width: 860px) {
+        .sgrid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .scard {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        border-radius: 20px;
+        padding: 24px;
+        text-align: center;
+      }
+      .scard .si {
+        font-size: 2.4rem;
+        margin-bottom: 8px;
+      }
+      .scard h3 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1rem;
+        margin-bottom: 4px;
+      }
+      .scard p {
+        font-size: 0.82rem;
+        opacity: 0.77;
+        font-weight: 600;
+      }
+      .sbig {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.7rem;
+        color: var(--accent);
+      }
+      .scta {
+        text-align: center;
+        margin-top: 34px;
+      }
+      .btn-white {
+        background: var(--white);
+        color: var(--primary);
+        padding: 13px 30px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.97rem;
+        box-shadow: 0 5px 18px rgba(0, 0, 0, 0.14);
+        transition: transform 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .btn-white:hover {
+        transform: translateY(-3px);
+      }
+
+      /* CTA BANNER */
+      .cta-banner {
+        padding: 60px 1.25rem;
+        background: linear-gradient(135deg, var(--primary) 0%, #c94700 100%);
+        text-align: center;
+        color: var(--white);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .cta-banner::before {
+        content: "∑";
+        position: absolute;
+        left: -20px;
+        bottom: -30px;
+        font-size: 200px;
+        font-family: var(--fd);
+        font-weight: 800;
+        opacity: 0.055;
+        color: var(--white);
+      }
+      .cta-banner::after {
+        content: "×";
+        position: absolute;
+        right: -10px;
+        top: -30px;
+        font-size: 200px;
+        font-family: var(--fd);
+        font-weight: 800;
+        opacity: 0.055;
+        color: var(--white);
+      }
+      .cta-banner h2 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: clamp(1.4rem, 4vw, 2.3rem);
+        margin-bottom: 10px;
+      }
+      .cta-banner p {
+        font-size: 0.97rem;
+        opacity: 0.87;
+        font-weight: 600;
+        margin-bottom: 26px;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--dark);
+        color: rgba(255, 255, 255, 0.8);
+        padding: 48px 1.25rem 22px;
+      }
+      .footer-inner {
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+      .fg {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 34px;
+        margin-bottom: 34px;
+      }
+      @media (min-width: 680px) {
+        .fg {
+          grid-template-columns: 1.7fr 1fr 1fr;
+        }
+      }
+      .fbrand p {
+        font-size: 0.83rem;
+        line-height: 1.72;
+        margin: 12px 0 16px;
+        opacity: 0.65;
+        font-weight: 500;
+      }
+      .fsoc {
+        display: flex;
+        gap: 9px;
+      }
+      .sb {
+        width: 37px;
+        height: 37px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        transition: all 0.2s;
+      }
+      .sb:hover {
+        background: var(--primary);
+        transform: translateY(-2px);
+      }
+      .fc h4 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 0.97rem;
+        color: var(--white);
+        margin-bottom: 14px;
+      }
+      .fc ul {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .fc ul li a {
+        font-size: 0.83rem;
+        font-weight: 600;
+        opacity: 0.68;
+        transition: opacity 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .fc ul li a:hover {
+        opacity: 1;
+        color: var(--primary-light);
+      }
+      .ci {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        font-size: 0.83rem;
+        font-weight: 600;
+        opacity: 0.73;
+        margin-bottom: 9px;
+      }
+      .ci span:first-child {
+        font-size: 0.97rem;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .fbot {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+        text-align: center;
+      }
+      .fbot p {
+        font-size: 0.76rem;
+        opacity: 0.45;
+        font-weight: 500;
+      }
+      @media (min-width: 580px) {
+        .fbot {
+          flex-direction: row;
+          justify-content: space-between;
+        }
+      }
+
+      /* WA FAB */
+      .wa-fab {
+        position: fixed;
+        bottom: 24px;
+        right: 20px;
+        z-index: 300;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #25d366, #128c7e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        transition: transform 0.25s;
+        animation: wap 2.5s infinite;
+      }
+      .wa-fab:hover {
+        transform: scale(1.1);
+      }
+      .wa-fab svg {
+        width: 30px;
+        height: 30px;
+        fill: white;
+      }
+      @keyframes wap {
+        0%,
+        100% {
+          box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+        50% {
+          box-shadow:
+            0 6px 28px rgba(37, 211, 102, 0.75),
+            0 0 0 10px rgba(37, 211, 102, 0.11);
+        }
+      }
+      .wa-tip {
+        position: absolute;
+        right: 66px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--dark);
+        color: white;
+        font-size: 0.73rem;
+        font-weight: 700;
+        padding: 5px 10px;
+        border-radius: 8px;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .wa-tip::after {
+        content: "";
+        position: absolute;
+        right: -5px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 5px solid transparent;
+        border-right: none;
+        border-left-color: var(--dark);
+      }
+      .wa-fab:hover .wa-tip {
+        opacity: 1;
+      }
+
+      /* POPUP */
+      .popup-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(26, 26, 46, 0.72);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      .popup-overlay.show {
+        display: flex;
+      }
+      .popup-box {
+        background: var(--white);
+        border-radius: 24px;
+        width: 100%;
+        max-width: 510px;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 30px 26px;
+        position: relative;
+        animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.24);
+      }
+      @keyframes popIn {
+        from {
+          opacity: 0;
+          transform: scale(0.86);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .popup-close {
+        position: absolute;
+        top: 13px;
+        right: 13px;
+        width: 33px;
+        height: 33px;
+        border-radius: 50%;
+        background: var(--bg);
+        color: var(--text);
+        font-size: 1.15rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+      }
+      .popup-close:hover {
+        background: var(--primary);
+        color: white;
+      }
+      .ph {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .ph-ico {
+        font-size: 2.1rem;
+        margin-bottom: 6px;
+      }
+      .ph h3 {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.45rem;
+        color: var(--dark);
+        margin-bottom: 3px;
+      }
+      .ph p {
+        font-size: 0.83rem;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .form-row {
+        margin-bottom: 14px;
+      }
+      .form-row label {
+        display: block;
+        font-weight: 700;
+        font-size: 0.83rem;
+        color: var(--dark);
+        margin-bottom: 5px;
+      }
+      .form-row label span {
+        color: var(--primary);
+      }
+      .form-row input,
+      .form-row select,
+      .form-row textarea {
+        width: 100%;
+        padding: 11px 13px;
+        border-radius: 12px;
+        border: 2px solid rgba(27, 79, 216, 0.14);
+        font-family: var(--fb);
+        font-size: 0.88rem;
+        font-weight: 600;
+        background: var(--bg);
+        color: var(--text);
+        transition: border-color 0.2s;
+        -webkit-appearance: none;
+      }
+      .form-row input:focus,
+      .form-row select:focus,
+      .form-row textarea:focus {
+        outline: none;
+        border-color: var(--secondary);
+        background: var(--white);
+      }
+      .form-row textarea {
+        resize: none;
+        height: 86px;
+      }
+      .f2c {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .btn-submit {
+        width: 100%;
+        padding: 14px;
+        border-radius: 50px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: var(--white);
+        font-weight: 800;
+        font-size: 0.97rem;
+        font-family: var(--fd);
+        box-shadow: 0 5px 18px rgba(255, 107, 53, 0.38);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(255, 107, 53, 0.48);
+      }
+      .btn-submit:disabled {
+        opacity: 0.68;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .fnote2 {
+        text-align: center;
+        font-size: 0.73rem;
+        color: var(--muted);
+        margin-top: 9px;
+        font-weight: 600;
+      }
+
+      /* TOAST */
+      .toast {
+        position: fixed;
+        bottom: 92px;
+        left: 50%;
+        transform: translateX(-50%) translateY(18px);
+        z-index: 2000;
+        padding: 13px 22px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: 0 8px 26px rgba(0, 0, 0, 0.17);
+        opacity: 0;
+        transition: all 0.4s;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      .toast.success {
+        background: #00c896;
+        color: white;
+      }
+      .toast.error {
+        background: #ff4444;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="math-bg" id="mathBg"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- HEADER -->
+    <header>
+      <div class="nav-inner">
+        <a href="#" class="logo-wrap">
+          <img class="logo-icon" src="/images/logo.png" />
+          <div class="logo-text">
+            <span class="lt1"
+              >Neha’s Abacus & <br />
+              Vedic Maths Classes</span
+            >
+          </div>
+        </a>
+        <nav>
+          <a href="#programs">Programs</a>
+          <a href="#abacus">Abacus</a>
+          <a href="#vedic">Vedic Maths</a>
+          <a href="#rba">Right Brain</a>
+          <!-- <a href="#schedule">Schedule</a> -->
+          <button
+            href="#"
+            class="nav-cta"
+            onclick="
+              openPopup();
+              return false;
+            "
+          >
+            Enquire Now
+          </button>
+        </nav>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </header>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#programs" onclick="closeMn()">Programs</a>
+      <a href="#abacus" onclick="closeMn()">Abacus Course</a>
+      <a href="#vedic" onclick="closeMn()">Vedic Maths</a>
+      <a href="#rba" onclick="closeMn()">Right Brain Activation</a>
+      <!-- <a href="#schedule" onclick="closeMn()">Schedule</a> -->
+      <a
+        href="#"
+        class="nav-cta"
+        onclick="
+          closeMn();
+          openPopup();
+          return false;
+        "
+        >Enquire Now</a
+      >
+    </div>
+
+    <!-- PAGE INTRO -->
+    <div class="page-intro">
+      <div class="pi-badge">🏆 Internationally Certified</div>
+      <h1>Unlock Your Child's<br /><span>Math Superpower</span></h1>
+      <p>
+        Expert coaching in Abacus, Vedic Maths, Mental Maths &amp; Brain
+        Development — building fast-thinking, confident young minds.
+      </p>
+      <div class="pi-btns">
+        <button class="btn-primary" onclick="openPopup()">
+          📝 Enquire Now
+        </button>
+        <a href="#programs" class="btn-outline">📚 View Programs</a>
+      </div>
+      <div class="course-pills">
+        <a href="#abacus" class="cpill cpill-a">🧮 Abacus Course Details</a>
+        <a href="#vedic" class="cpill cpill-v">📐 Vedic Maths Details</a>
+        <a href="#rba" class="cpill cpill-r">🧠 Right Brain Activation</a>
+      </div>
+      <div class="beads">
+        <div class="bead"></div>
+        <div class="bead"></div>
+        <div class="bead"></div>
+        <div class="bead"></div>
+        <div class="bead"></div>
+        <div class="bead"></div>
+        <div class="bead"></div>
+      </div>
+    </div>
+
+    <!-- PROGRAMS -->
+    <section class="progs" id="programs">
+      <div class="container">
+        <div class="sec-hd reveal">
+          <div class="sec-tag">📚 Programs Offered</div>
+          <h2>What We Teach</h2>
+          <p>Eight powerful learning streams.</p>
+          <div class="divider"></div>
+        </div>
+        <div class="prog-grid">
+          <div
+            class="prog-card reveal"
+            data-sym="🧮"
+            style="border-top: 4px solid #ff6b35"
+          >
+            <div class="pi2">🧮</div>
+            <h3>Abacus Training</h3>
+            <p>
+              Complete 8-level journey — from basic addition to decimals,
+              squares &amp; area. Internationally certified at every level.
+            </p>
+            <a
+              href="#abacus"
+              class="pbadge"
+              style="background: rgba(255, 107, 53, 0.1); color: #c44a00"
+              >View Full Details →</a
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="∑"
+            style="border-top: 4px solid #1b4fd8"
+          >
+            <div class="pi2">📐</div>
+            <h3>Vedic Maths Training</h3>
+            <p>
+              Ancient Indian techniques — multiplication methods, square roots
+              &amp; more — supercharging calculation speed.
+            </p>
+            <a
+              href="#vedic"
+              class="pbadge"
+              style="background: rgba(27, 79, 216, 0.1); color: #0d35a0"
+              >View Full Details →</a
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="⚡"
+            style="border-top: 4px solid #00c896"
+          >
+            <div class="pi2">🧩</div>
+            <h3>Mental Maths Practice</h3>
+            <p>
+              Train the mind to compute without pen &amp; paper — builds
+              lightning-fast recall and deep mathematical intuition.
+            </p>
+            <span
+              class="pbadge"
+              style="background: rgba(0, 200, 150, 0.1); color: #007a5e"
+              >Speed · Accuracy</span
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="✍"
+            style="border-top: 4px solid #ffd700"
+          >
+            <div class="pi2">✍️</div>
+            <h3>Speed Writing Techniques</h3>
+            <p>
+              Structured exercises to dramatically increase writing speed while
+              maintaining neatness — ideal for exam performance.
+            </p>
+            <span
+              class="pbadge"
+              style="background: rgba(255, 215, 0, 0.14); color: #a07800"
+              >Exam Prep · Handwriting</span
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="✌"
+            style="border-top: 4px solid #b14fff"
+          >
+            <div class="pi2">🖊️</div>
+            <h3>Writing with Both Hands</h3>
+            <p>
+              Simultaneous bilateral hand training — a rare and powerful skill
+              that activates both brain hemispheres for enhanced learning.
+            </p>
+            <span
+              class="pbadge"
+              style="background: rgba(177, 79, 255, 0.1); color: #7a00d4"
+              >Brain Balance · Unique</span
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="🎨"
+            style="border-top: 4px solid #ff6b35"
+          >
+            <div class="pi2">🎨</div>
+            <h3>Drawing with Both Hands</h3>
+            <p>
+              Mirror &amp; simultaneous drawing exercises that unlock
+              creativity, fine motor skills &amp; cross-lateral brain
+              coordination.
+            </p>
+            <span
+              class="pbadge"
+              style="background: rgba(255, 107, 53, 0.1); color: #c44a00"
+              >Creativity · Motor Skills</span
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="🏃"
+            style="border-top: 4px solid #00c896"
+          >
+            <div class="pi2">🤸</div>
+            <h3>Brain Gym Exercises</h3>
+            <p>
+              Improves concentration, memory &amp; overall cognitive performance
+              in children of all ages.
+            </p>
+            <span
+              class="pbadge"
+              style="background: rgba(0, 200, 150, 0.1); color: #007a5e"
+              >Focus · Memory · Brain Development</span
+            >
+          </div>
+
+          <div
+            class="prog-card reveal"
+            data-sym="🧠"
+            style="border-top: 4px solid #b14fff"
+          >
+            <div class="pi2">🧠</div>
+            <h3>Right Brain Activation — Memory Booster</h3>
+            <p>
+              A specialised short-course using flash cards, sound therapy,
+              <!-- meditation &amp; creative activities to supercharge memory,
+              imagination, and intuitive thinking in children. -->
+            </p>
+            <a
+              href="#rba"
+              class="pbadge"
+              style="background: rgba(177, 79, 255, 0.1); color: #6a00c8"
+              >View Full Details →</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABACUS COURSE -->
+    <section class="abacus-sec" id="abacus">
+      <div class="container">
+        <div class="sec-hd reveal">
+          <div class="sec-tag" style="color: var(--primary)">
+            🧮 Abacus Course
+          </div>
+          <h2>Abacus Training — Full Details</h2>
+          <p>
+            A structured 8-level program that transforms the way your child
+            thinks about numbers.
+          </p>
+          <div class="divider"></div>
+        </div>
+        <div class="cc reveal">
+          <div class="ctop">
+            <div class="ctitle" style="flex: 1">
+              <h3>🧮 Abacus Training</h3>
+              <div class="mstrip">
+                <div class="mchip">
+                  <em>📅</em>
+                  <div>
+                    <strong>3 Months</strong><small>Duration per Level</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>📚</em>
+                  <div>
+                    <strong>24 Classes</strong><small>Total Sessions</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>⏰</em>
+                  <div><strong>1 Hour</strong><small>Per Session</small></div>
+                </div>
+                <div class="mchip">
+                  <em>📆</em>
+                  <div>
+                    <strong>Twice a Week</strong><small>Schedule</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cbody">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div class="tbox">
+                <h4>📖 Topics Covered in Abacus</h4>
+                <ul class="tlist">
+                  <li>Addition &amp; Subtraction</li>
+                  <li>Multiplication</li>
+                  <li>Division</li>
+                  <li>Square &amp; Square Root</li>
+                  <li>Cube &amp; Cube Root</li>
+                  <li>Unit of Cost</li>
+                  <li>Decimals</li>
+                  <li>Decimal with Multiplication</li>
+                  <li>Average</li>
+                  <li>Area &amp; Perimeter</li>
+                </ul>
+              </div>
+              <div class="tbox">
+                <h4>🌟 Level 1 — What's Included</h4>
+                <ul class="tlist">
+                  <li>Speed Writing ✍️</li>
+                  <li>Mental Maths</li>
+                  <li>Finger Abacus (both hands)</li>
+                  <li>Writing with Both Hands</li>
+                  <li>Drawing with Both Hands</li>
+                  <li>Brain Gym Exercises</li>
+                  <li>International Certificate 🏅</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="fbox">
+                <h4>💰 First Admission — Fee Breakdown</h4>
+                <div class="frow">
+                  <span>Course Fee (3 months)</span
+                  ><span class="amt">₹3,500</span>
+                </div>
+                <div class="frow">
+                  <span>Registration Charges (one-time)</span
+                  ><span class="amt">₹500</span>
+                </div>
+                <div class="frow">
+                  <span>Kit Charges</span><span class="amt">₹500</span>
+                </div>
+                <div class="frow total">
+                  <span>Total — First Admission</span
+                  ><span class="amt">₹4,500</span>
+                </div>
+                <div class="cchip">
+                  🏅 Exam &amp; Certification Charges included up to Level 8
+                </div>
+                <div class="cchip" style="margin-top: 8px">
+                  📦 Kit: 2 Books + 1 Abacus Tool
+                </div>
+                <div class="fnote">
+                  📌 <strong>From Level 2 Onwards:</strong> Course Fee + Book
+                  Charges = <strong>₹4,000</strong> per level. No registration
+                  fee from Level 2.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ccta">
+            <button class="btn-primary" onclick="openPopup()">
+              🚀 Contact Us Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VEDIC MATHS COURSE -->
+    <section class="vedic-sec" id="vedic">
+      <div class="container">
+        <div class="sec-hd reveal">
+          <div
+            class="sec-tag"
+            style="
+              color: var(--secondary);
+              border-color: rgba(27, 79, 216, 0.2);
+              background: linear-gradient(
+                135deg,
+                rgba(27, 79, 216, 0.1),
+                rgba(177, 79, 255, 0.1)
+              );
+            "
+          >
+            📐 Vedic Maths Course
+          </div>
+          <h2>Vedic Maths — Full Details</h2>
+          <p>
+            Ancient Indian mathematical wisdom that gives children a decisive
+            edge in exams and daily calculations.
+          </p>
+          <div
+            class="divider"
+            style="
+              background: linear-gradient(
+                90deg,
+                var(--secondary),
+                var(--accent3)
+              );
+            "
+          ></div>
+        </div>
+        <div class="cc reveal">
+          <div class="ctop">
+            <div class="ctitle" style="flex: 1">
+              <h3>📐 Vedic Maths Training</h3>
+              <div class="mstrip">
+                <div class="mchip">
+                  <em>📅</em>
+                  <div><strong>2 Months</strong><small>Duration</small></div>
+                </div>
+                <div class="mchip">
+                  <em>⏰</em>
+                  <div><strong>1 Hour</strong><small>Per Session</small></div>
+                </div>
+                <div class="mchip">
+                  <em>📆</em>
+                  <div>
+                    <strong>Twice a Week</strong><small>Schedule</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>💰</em>
+                  <div><strong>₹3,500</strong><small>Course Fee</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cbody">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div class="tbox">
+                <h4>📖 Topics Covered in Vedic Maths</h4>
+                <ul class="tlist">
+                  <li>Addition &amp; Subtraction — 4 Methods</li>
+                  <li>Multiplication — 6 Methods</li>
+                  <li>Division — 2 Methods</li>
+                  <li>Square</li>
+                  <li>Square Root</li>
+                  <li>Cube Root</li>
+                  <li>Ratio</li>
+                </ul>
+              </div>
+              <div class="tbox">
+                <h4>🏆 Key Benefits</h4>
+                <ul class="tlist">
+                  <li>Dramatically improves calculation speed</li>
+                  <li>Increases accuracy in all maths</li>
+                  <li>Strengthens mental calculation ability</li>
+                  <li>Invaluable for competitive exams</li>
+                  <li>Boosts concentration &amp; confidence</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="fbox">
+                <h4>💰 Vedic Maths Fee Structure</h4>
+                <div class="frow">
+                  <span>Course Fee (2 months)</span
+                  ><span class="amt">₹3,500</span>
+                </div>
+                <div class="frow total">
+                  <span>Total Course Fee</span><span class="amt">₹3,500</span>
+                </div>
+                <div class="cchip">📅 Twice a Week · 1 Hour per Session</div>
+                <div class="fnote">
+                  ✅ Ideal for competitive exam prep, olympiads, and students
+                  who want to master mental calculation permanently.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ccta">
+            <button
+              class="btn-primary"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  var(--secondary),
+                  var(--accent3)
+                );
+                box-shadow: 0 5px 18px rgba(27, 79, 216, 0.35);
+              "
+              onclick="openPopup()"
+            >
+              🚀 Contact Us Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT BRAIN ACTIVATION COURSE -->
+    <section class="rba-sec" id="rba">
+      <div class="container">
+        <div class="sec-hd reveal">
+          <div
+            class="sec-tag"
+            style="
+              color: var(--accent3);
+              border-color: rgba(177, 79, 255, 0.25);
+              background: linear-gradient(
+                135deg,
+                rgba(177, 79, 255, 0.1),
+                rgba(27, 79, 216, 0.08)
+              );
+            "
+          >
+            🧠 Right Brain Activation
+          </div>
+          <h2>Memory Booster &amp; Brain Activation</h2>
+          <p>
+            Unlock your child's hidden potential — sharper memory, vivid
+            imagination, and supercharged focus in just 6 sessions.
+          </p>
+          <div
+            class="divider"
+            style="
+              background: linear-gradient(
+                90deg,
+                var(--accent3),
+                var(--secondary)
+              );
+            "
+          ></div>
+        </div>
+        <div class="cc reveal">
+          <div class="ctop">
+            <div class="ctitle" style="flex: 1">
+              <h3>🧠 Right Brain Activation</h3>
+              <p>
+                Right Brain Activation uses innovative techniques — flash cards,
+                sound therapy, meditation, coordination &amp; eye exercises — to
+                stimulate the creative hemisphere of the brain, giving children
+                stronger memory, faster thinking, and improved emotional
+                intelligence.
+              </p>
+              <div class="mstrip">
+                <div class="mchip">
+                  <em>📅</em>
+                  <div>
+                    <strong>6 Classes</strong><small>Total Sessions</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>📆</em>
+                  <div>
+                    <strong>3 Days a Week</strong><small>Schedule</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>⏰</em>
+                  <div>
+                    <strong>40 Minutes</strong><small>Per Session</small>
+                  </div>
+                </div>
+                <div class="mchip">
+                  <em>👶</em>
+                  <div><strong>All Ages</strong><small>Welcome</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cbody">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div class="tbox">
+                <h4>📖 What Your Child Will Learn</h4>
+                <ul class="tlist">
+                  <li>Brainstorming Activities</li>
+                  <li>Brain Gym Exercises</li>
+                  <li>Flash Card Techniques</li>
+                  <li>Meditation Techniques</li>
+                  <li>Positive Affirmations</li>
+                  <li>Coordination Exercises</li>
+                  <li>Eye Exercises</li>
+                  <li>Special Sound Therapy</li>
+                  <li>Activities for Brain Activation</li>
+                </ul>
+              </div>
+              <div class="tbox">
+                <h4>🌟 Skills Your Child Gains</h4>
+                <ul class="tlist">
+                  <li>Enhanced creativity &amp; imagination</li>
+                  <li>Stronger memory &amp; recall</li>
+                  <li>Improved intuition &amp; problem-solving</li>
+                  <li>Better emotional intelligence</li>
+                  <li>Increased mental agility &amp; flexibility</li>
+                  <li>Boosted visualisation &amp; spatial awareness</li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <div class="fbox">
+                <h4>📊 3-Level Program Overview</h4>
+                <div
+                  class="frow"
+                  style="
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                    padding: 10px 0;
+                  "
+                >
+                  <strong style="font-size: 0.88rem">🌱 Basic Level</strong>
+                  <span style="font-size: 0.8rem; opacity: 0.85"
+                    >Introduction to right brain techniques, creativity
+                    exercises, memory &amp; focus building</span
+                  >
+                </div>
+                <div
+                  class="frow"
+                  style="
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                    padding: 10px 0;
+                  "
+                >
+                  <strong style="font-size: 0.88rem"
+                    >🔥 Intermediate Level</strong
+                  >
+                  <span style="font-size: 0.8rem; opacity: 0.85"
+                    >Advanced memory enhancement, sensory &amp; artistic
+                    activities, emotional control &amp; confidence</span
+                  >
+                </div>
+                <div
+                  class="frow"
+                  style="
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 4px;
+                    padding: 10px 0;
+                    border-bottom: none;
+                  "
+                >
+                  <strong style="font-size: 0.88rem">🚀 Advanced Level</strong>
+                  <span style="font-size: 0.8rem; opacity: 0.85"
+                    >Mastery of creative &amp; critical thinking, refined
+                    visualisation, faster learning &amp; academic peak
+                    performance</span
+                  >
+                </div>
+                <div class="cchip" style="margin-top: 4px">
+                  ⏱️ 6 Classes · 3 Days a Week · 40 Min/Session
+                </div>
+                <div class="fnote">
+                  ✨ A focused, high-impact short-course ideal for children who
+                  want to unlock their brain's full potential — complements
+                  Abacus &amp; Vedic Maths beautifully.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ccta">
+            <button
+              class="btn-primary"
+              style="
+                background: linear-gradient(135deg, var(--accent3), #7b2fff);
+                box-shadow: 0 5px 18px rgba(177, 79, 255, 0.38);
+              "
+              onclick="openPopup()"
+            >
+              🚀 Contact Us Now
+            </button>
+          </div>
+
+          <!-- Teacher Training Banner -->
+          <div
+            style="
+              margin-top: 22px;
+              background: linear-gradient(
+                135deg,
+                rgba(177, 79, 255, 0.08),
+                rgba(27, 79, 216, 0.08)
+              );
+              border: 2px dashed rgba(177, 79, 255, 0.35);
+              border-radius: 16px;
+              padding: 18px 22px;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+              gap: 14px;
+              justify-content: space-between;
+            "
+          >
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex: 1;
+                min-width: 220px;
+              "
+            >
+              <div style="font-size: 2rem; flex-shrink: 0">👩‍🏫</div>
+              <div>
+                <div
+                  style="
+                    font-family: var(--fd);
+                    font-weight: 800;
+                    font-size: 1rem;
+                    color: var(--dark);
+                    margin-bottom: 3px;
+                  "
+                >
+                  Teacher Training Programme
+                </div>
+                <div
+                  style="
+                    font-size: 0.84rem;
+                    color: var(--muted);
+                    font-weight: 600;
+                  "
+                >
+                  We also provide professional training for teachers.
+                </div>
+              </div>
+            </div>
+            <a
+              href="#"
+              onclick="
+                openPopup();
+                return false;
+              "
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: var(--white);
+                color: var(--accent3);
+                border: 2px solid rgba(177, 79, 255, 0.4);
+                padding: 10px 18px;
+                border-radius: 50px;
+                font-weight: 800;
+                font-size: 0.85rem;
+                white-space: nowrap;
+                transition: all 0.2s;
+                box-shadow: 0 3px 12px rgba(177, 79, 255, 0.15);
+              "
+              onmouseover="
+                this.style.background = 'var(--accent3)';
+                this.style.color = 'white';
+              "
+              onmouseout="
+                this.style.background = 'var(--white)';
+                this.style.color = 'var(--accent3)';
+              "
+              >Enquire for Teacher Training →</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHEDULE -->
+    <!-- <section class="sched-sec" id="schedule">
+      <div class="container">
+        <div class="sec-hd reveal">
+          <div class="sec-tag">🗓️ Class Schedule</div>
+          <h2>Flexible, Consistent Learning</h2>
+          <p>
+            Structured sessions that fit neatly into your child's school week.
+          </p>
+          <div class="divider"></div>
+        </div>
+        <div class="sgrid reveal">
+          <div class="scard">
+            <div class="si">📅</div>
+            <h3>Classes Per Week</h3>
+            <div class="sbig">2×</div>
+            <p>Twice a week — consistent without being overwhelming</p>
+          </div>
+          <div class="scard">
+            <div class="si">⏱️</div>
+            <h3>Session Duration</h3>
+            <div class="sbig">1 Hour</div>
+            <p>Power-packed, focused, age-appropriate sessions</p>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner" id="contact">
+      <div class="container">
+        <h2>Ready to Spark Your Child's Potential? 🚀</h2>
+        <p>
+          Join hundreds of children already on their journey to maths mastery.
+          Limited seats per batch — enquire today.
+        </p>
+        <button class="btn-white" onclick="openPopup()">📝 Enquire Now</button>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div class="fg">
+          <div class="fbrand">
+            <a
+              href="#"
+              class="logo-wrap"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 0;
+              "
+            >
+              <img class="logo-icon" src="/images/logo.png" />
+              <div class="logo-text">
+                <span class="lt1" style="-webkit-text-fill-color: white"
+                  >Neha’s Abacus & <br />
+                  Vedic Maths Classes</span
+                >
+              </div>
+            </a>
+            <p>
+              Nurturing young minds through internationally recognised Abacus,
+              Vedic Maths, and brain development programs. Every child is a
+              genius waiting to be discovered.
+            </p>
+            <div class="fsoc">
+              <a href="#" class="sb" aria-label="Facebook">📘</a>
+              <a href="#" class="sb" aria-label="Instagram">📸</a>
+              <a href="#" class="sb" aria-label="YouTube">▶️</a>
+              <a
+                href="https://wa.me/918308307800"
+                class="sb"
+                aria-label="WhatsApp"
+                >💬</a
+              >
+            </div>
+          </div>
+          <div class="fc">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#programs">📚 Programs Offered</a></li>
+              <li><a href="#abacus">🧮 Abacus Course</a></li>
+              <li><a href="#vedic">📐 Vedic Maths Course</a></li>
+              <li><a href="#rba">🧠 Right Brain Activation</a></li>
+              <!-- <li><a href="#schedule">🗓️ Class Schedule</a></li> -->
+              <li>
+                <a
+                  href="#"
+                  onclick="
+                    openPopup();
+                    return false;
+                  "
+                  >📝 Free Enquiry</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="fc">
+            <h4>Contact Us</h4>
+            <div class="ci"><span>📞</span><span>+91 83083 07800</span></div>
+            <div class="ci">
+              <span>📧</span
+              ><a href="mailto:nehalallwani@gmail.com"
+                ><span>nehalallwani@gmail.com</span></a
+              >
+            </div>
+            <div class="ci">
+              <span>📍</span
+              ><span
+                >Empire estate near ranka jewellers m1 bldg 5th floor gate no.
+                9A Pimpri-Chinchwad</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="fbot">
+          <p>
+            © 2026 Neha’s Abacus & Vedic Maths Classes. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- WHATSAPP FAB -->
+    <a
+      href="https://wa.me/918308307800?text=Hi%20Neha%20Ma%27am%2C%20I%E2%80%99m%20interested%20in%20your%20courses%20and%20would%20like%20to%20know%20more%20about%20them."
+      class="wa-fab"
+      target="_blank"
+      rel="noopener"
+      aria-label="Chat on WhatsApp"
+    >
+      <div class="wa-tip">Chat on WhatsApp</div>
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"
+        />
+        <path
+          d="M12 0C5.373 0 0 5.373 0 12c0 2.108.552 4.086 1.512 5.804L0 24l6.338-1.492A11.933 11.933 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.927 0-3.734-.495-5.303-1.358l-.38-.225-3.762.887.902-3.665-.248-.388A9.942 9.942 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"
+        />
+      </svg>
+    </a>
+
+    <!-- POPUP -->
+    <div class="popup-overlay" id="popupOverlay">
+      <div class="popup-box">
+        <button class="popup-close" onclick="closePopup()" aria-label="Close">
+          ✕
+        </button>
+        <div class="ph">
+          <div class="ph-ico">🚀</div>
+          <h3>Contact Form!</h3>
+          <p>Please fill in your details.</p>
+        </div>
+        <form id="contactForm" action="https://form-handler.navmc-enquiry-form-handler.workers.dev" method="POST">
+          <div class="f2c">
+            <div class="form-row">
+              <label>Parent's Name <span>*</span></label
+              ><input
+                type="text"
+                name="parent_name"
+                placeholder="e.g. Rahul Sharma"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label>Child's Name <span>*</span></label
+              ><input
+                type="text"
+                name="child_name"
+                placeholder="e.g. Priya"
+                required
+              />
+            </div>
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="f2c">
+            <div class="form-row">
+              <label>Child's Age <span>*</span></label>
+              <select name="age" required>
+                <option value="">Select Age</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15+</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Phone Number <span>*</span></label
+              ><input
+                type="tel"
+                name="phone"
+                placeholder="+91 98765 43210"
+                pattern="[0-9+\s\-]{8,15}"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Email Address</label
+            ><input type="email" name="email" placeholder="parent@email.com" />
+          </div>
+          <div class="form-row">
+            <label>Interested Course <span>*</span></label>
+            <select name="course" required>
+              <option value="">Select Course</option>
+              <option>Abacus Training (Level 1)</option>
+              <option>Abacus Training (Level 2+)</option>
+              <option>Vedic Maths</option>
+              <option>Right Brain Activation</option>
+              <option>Mental Maths</option>
+              <option>Speed Writing</option>
+              <option>Brain Gym</option>
+              <option>Not Sure – Need Guidance</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label>Message / Questions</label
+            ><textarea
+              name="message"
+              placeholder="Any questions about timings, fees, or curriculum?"
+            ></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            🚀 Send Enquiry
+          </button>
+          <p class="fnote2">🔒 Your details are safe with us. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+      /* Floating math symbols */
+      const mathBg = document.getElementById("mathBg");
+      const syms = [
+        "∑",
+        "×",
+        "÷",
+        "√",
+        "∞",
+        "π",
+        "∫",
+        "Δ",
+        "²",
+        "³",
+        "%",
+        "=",
+        "+",
+        "−",
+        "½",
+        "¾",
+        "∴",
+      ];
+      for (let i = 0; i < 20; i++) {
+        const el = document.createElement("div");
+        el.className = "ms";
+        el.textContent = syms[Math.floor(Math.random() * syms.length)];
+        const sz = Math.random() * 58 + 28;
+        el.style.cssText = `left:${Math.random() * 100}%;font-size:${sz}px;animation-duration:${Math.random() * 14 + 11}s;animation-delay:-${Math.random() * 20}s`;
+        mathBg.appendChild(el);
+      }
+
+      /* Hamburger */
+      const ham = document.getElementById("hamburger"),
+        mn = document.getElementById("mobileNav");
+      ham.addEventListener("click", () => mn.classList.toggle("open"));
+      function closeMn() {
+        mn.classList.remove("open");
+      }
+
+      /* Scroll reveal */
+      const obs = new IntersectionObserver(
+        (es) => {
+          es.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.11 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      /* Popup */
+      function openPopup() {
+        document.getElementById("popupOverlay").classList.add("show");
+        document.body.style.overflow = "hidden";
+      }
+      function closePopup() {
+        document.getElementById("popupOverlay").classList.remove("show");
+        document.body.style.overflow = "";
+      }
+      document
+        .getElementById("popupOverlay")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closePopup();
+        });
+      let shown = false;
+
+      /* Popup fires when user has read the page — scrolled past Abacus section
+   AND spent at least 8 seconds on the page. Both conditions must be true.
+   This way it never interrupts someone still reading the top. */
+      let timeReady = false;
+      setTimeout(() => {
+        timeReady = true;
+        tryPopup();
+      }, 8000);
+
+      function tryPopup() {
+        if (shown || !timeReady) return;
+        const abacus = document.getElementById("abacus");
+        if (!abacus) return;
+        const rect = abacus.getBoundingClientRect();
+        // Fire once the Abacus section has scrolled past the top half of the screen
+        if (rect.top < window.innerHeight * 0.4) {
+          shown = true;
+          setTimeout(() => {
+            openPopup();
+          }, 8000);
+          // openPopup();
+        }
+      }
+      window.addEventListener("scroll", tryPopup, { passive: true });
+
+      /* Toast */
+      function showToast(msg, type) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = "toast " + type + " show";
+        setTimeout(() => {
+          t.className = "toast";
+        }, 4500);
+      }
+
+      /* URL param on load */
+      window.addEventListener("load", () => {
+        const p = new URLSearchParams(window.location.search);
+        if (p.get("form_submission_success") === "true") {
+          showToast(
+            "🎉 Your enquiry was received! We'll be in touch soon.",
+            "success",
+          );
+          launchConfetti();
+          setTimeout(() => {
+            const u = new URL(window.location);
+            u.searchParams.delete("form_submission_success");
+            window.history.replaceState({}, "", u);
+          }, 5000);
+        }
+        if (p.get("form_submission_success") === "error") {
+          showToast(
+            "❌ Something went wrong. Please call us directly.",
+            "error",
+          );
+        }
+      });
+
+      /* Confetti */
+      function launchConfetti() {
+        const cv = document.getElementById("confetti-canvas");
+        cv.style.display = "block";
+        const ctx = cv.getContext("2d");
+        cv.width = window.innerWidth;
+        cv.height = window.innerHeight;
+        const pieces = [],
+          cols = [
+            "#FF6B35",
+            "#1B4FD8",
+            "#FFD700",
+            "#00C896",
+            "#B14FFF",
+            "#FF4444",
+            "#00BFFF",
+          ];
+        for (let i = 0; i < 150; i++)
+          pieces.push({
+            x: Math.random() * cv.width,
+            y: Math.random() * cv.height - cv.height,
+            w: Math.random() * 10 + 5,
+            h: Math.random() * 6 + 3,
+            color: cols[Math.floor(Math.random() * cols.length)],
+            rot: Math.random() * 360,
+            vx: (Math.random() - 0.5) * 3,
+            vy: Math.random() * 4 + 2,
+            vr: (Math.random() - 0.5) * 6,
+          });
+        const start = Date.now();
+        function draw() {
+          ctx.clearRect(0, 0, cv.width, cv.height);
+          pieces.forEach((p) => {
+            ctx.save();
+            ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+            ctx.rotate((p.rot * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+            p.x += p.vx;
+            p.y += p.vy;
+            p.rot += p.vr;
+          });
+          if (Date.now() - start < 3500) requestAnimationFrame(draw);
+          else {
+            ctx.clearRect(0, 0, cv.width, cv.height);
+            cv.style.display = "none";
+          }
+        }
+        draw();
+      }
+    </script>
+  </body>
+</html>

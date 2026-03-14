@@ -1,0 +1,31 @@
+# General environment files
+**/.env
+**/.env.*
+**/.env.local
+**/.env.development.local
+**/.env.test.local
+**/.env.production.local
+
+# Cloudflare Workers / Wrangler local variables
+**/.dev.vars
+**/.dev.vars*
+
+# Backup and temporary secret files
+**/*.bak
+**/*.save
+**/*.swp
+**/*~
+
+# Security and Credentials
+**/credentials.json
+**/*.pem
+**/*.key
+**/*.pub
+**/*.cert
+**/*.p12
+
+**/node_modules
+
+**/.wrangler
+
+**/*-lock.*

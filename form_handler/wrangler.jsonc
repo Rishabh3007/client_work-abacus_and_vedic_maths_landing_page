@@ -1,0 +1,8 @@
+{
+  "name": "form-handler",
+  "main": "worker.js",
+  "compatibility_date": "2024-01-01",
+  "vars":{
+     "SHEET_LINK":"https://docs.google.com/spreadsheets/d/1TjtdeZccV0FuFBX_Pga4QJ29Tr41tfxpkh4DTqhXAFc/edit?usp=sharing"
+  }
+}
